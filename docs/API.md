@@ -86,14 +86,14 @@ Runs the full 6-agent pipeline on a patient and persists the result.
     ],
     "summary": "Presentation is most consistent with community-acquired pneumonia; consider chest imaging and blood cultures before starting antibiotics.",
     "red_flags": ["shortness of breath"],
-    "model": "llama-3.3-70b-versatile"
+    "model": "openai/gpt-oss-120b"
   },
   "ai_critique": {
     "assessment": "agrees",
     "concerns": [],
     "missed_considerations": ["Consider D-dimer/CT pulmonary angiogram given SOB, to formally rule out PE alongside pneumonia"],
     "narrative": "The top diagnosis of pneumonia is well-supported by the symptom cluster and elevated inflammatory markers, and the CRITICAL risk classification with ICU-level recommendations is appropriate given the patient's age and comorbidity. The differential could be marginally broadened to formally exclude pulmonary embolism.",
-    "model": "llama-3.3-70b-versatile"
+    "model": "openai/gpt-oss-120b"
   },
   "analyzed_at": "2026-08-12T09:49:39.302784Z"
 }

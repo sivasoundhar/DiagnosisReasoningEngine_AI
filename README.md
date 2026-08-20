@@ -11,9 +11,12 @@ answer.
 ![FastAPI](https://img.shields.io/badge/backend-FastAPI-009688)
 ![React](https://img.shields.io/badge/frontend-React%2019-61DAFB)
 ![Status](https://img.shields.io/badge/status-active-brightgreen)
+[![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE)
 
 > ⚠️ **Not a medical device.** Educational and research use only — not a substitute for
 > professional medical judgment.
+
+![Demo: filling in a patient, running the 6-agent pipeline, and reviewing the ranked diagnosis, risk score, and AI second opinion + critique](docs/assets/demo.gif)
 
 ---
 
@@ -32,6 +35,7 @@ answer.
 - [Real-data validation](#real-data-validation)
 - [Project structure](#project-structure)
 - [Documentation](#documentation)
+- [License](#license)
 - [Disclaimer](#disclaimer)
 
 ---
@@ -299,6 +303,10 @@ data/                           # DDXPlus dataset (gitignored - large; used for 
 | [`docs/TEST_RESULTS.md`](docs/TEST_RESULTS.md) | Real-data validation methodology + results |
 | [`docs/DEPLOYMENT_NOTES.md`](docs/DEPLOYMENT_NOTES.md) | Docker details + deployment checklist |
 | [`docs/PROJECT_GUIDE.md`](docs/PROJECT_GUIDE.md) | The full "read this first" deep-dive doc |
+
+## License
+
+[MIT](LICENSE) — free to use, modify, and build on.
 
 ## Disclaimer
 

@@ -16,7 +16,7 @@ class Settings(BaseSettings):
 
     # --- LLM gateway ---
     groq_api_key: str = ""
-    groq_model: str = "llama-3.3-70b-versatile"
+    groq_model: str = "openai/gpt-oss-120b"
     ollama_base_url: str = "http://localhost:11434"
     ollama_model: str = "llama3.1"
 

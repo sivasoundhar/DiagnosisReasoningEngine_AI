@@ -41,7 +41,7 @@ for local full-stack testing, not a production frontend deployment (see below).
 | `LOG_LEVEL` | `INFO` | |
 | `ALLOWED_ORIGINS` | `http://localhost:5173,http://localhost:3000` | CORS — **must be updated** to the real frontend URL once deployed |
 | `GROQ_API_KEY` | — | **Used by the AI Reasoning Agent and the AI Critic Agent** (one shared client, two agents). Without it, `/analyze` still works fully — `ai_opinion` and `ai_critique` are simply `null` on every response. Get a free key at console.groq.com. |
-| `GROQ_MODEL` | `llama-3.3-70b-versatile` | Which Groq model both LLM agents call |
+| `GROQ_MODEL` | `openai/gpt-oss-120b` | Which Groq model both LLM agents call |
 | `OLLAMA_*` | — | Defined but still unused — no agent currently falls back to Ollama |
 
 ### Environment variables (frontend)
