@@ -1,99 +1,257 @@
-# Diagnosis Reasoning Engine
+# 🩺 Diagnosis Reasoning Engine
 
-A multi-agent clinical decision-support system. Four specialized [LangGraph](https://langchain-ai.github.io/langgraph/)
-agents — Symptom Analyzer, Lab Interpreter, Risk Assessor, Recommender — deterministically reason
-through a patient's symptoms, labs, age, and comorbidities to produce a ranked differential
-diagnosis, a risk assessment, and a recommended workup, with the reasoning behind every step
-surfaced explicitly rather than a black-box answer. Two more agents add genuine LLM reasoning on
-top: the **AI Reasoning Agent** independently asks an LLM (Groq) for its own second opinion on the
-same case, and the **AI Critic Agent** reviews the rule-based result itself and critiques it — the
-actual cross-verification step. See [Why three kinds of reasoning](#why-three-kinds-of-reasoning)
-below.
+**AI copilot for clinical triage** — a multi-agent decision-support system that turns a patient's
+symptoms, labs, age, and comorbidities into a ranked differential diagnosis, a risk score, and a
+recommended workup, with the reasoning behind every step shown explicitly instead of a black-box
+answer.
 
-**Status:** Backend pipeline, full React UI, voice input, real-data validation, CI/CD, and Docker
-are complete. Render deployment is a deliberate follow-up, not yet live.
+[![CI/CD](https://github.com/sivasoundhar/DiagnosisReasoningEngine_AI/actions/workflows/deploy.yml/badge.svg)](https://github.com/sivasoundhar/DiagnosisReasoningEngine_AI/actions/workflows/deploy.yml)
+![Python](https://img.shields.io/badge/python-3.11%2B-blue)
+![Node](https://img.shields.io/badge/node-20%2B-339933)
+![FastAPI](https://img.shields.io/badge/backend-FastAPI-009688)
+![React](https://img.shields.io/badge/frontend-React%2019-61DAFB)
+![Status](https://img.shields.io/badge/status-active-brightgreen)
 
-## What it does
+> ⚠️ **Not a medical device.** Educational and research use only — not a substitute for
+> professional medical judgment.
 
-1. Enter (or speak) a patient's symptoms, age, comorbidities, and optional lab values
-2. Four rule-based agents run in a fixed pipeline — Symptom Analyzer → Lab Interpreter → Risk
-   Assessor → Recommender — then an LLM-based agent independently forms its own opinion on the same
-   raw input, and a second LLM-based agent reviews and critiques the rule-based result specifically
-3. Get back a ranked differential diagnosis, a LOW/MEDIUM/HIGH/CRITICAL risk score, recommended
-   tests/treatments/follow-up, the reasoning chain behind each step, an AI second opinion flagged as
-   agreeing or differing with the rule-based top diagnosis, and an AI cross-check with an
-   agrees/partially agrees/disagrees verdict plus any concerns or missed considerations
-4. Download a clean, print-ready clinical report; look up past analyses by patient; browse
-   aggregated analytics across everything the instance has run
+---
 
-## Tech Stack
+## Contents
 
-| Layer | Stack |
+- [Why this exists](#why-this-exists)
+- [Who it's for](#who-its-for)
+- [Key features](#key-features)
+- [How it works](#how-it-works)
+- [Why three kinds of reasoning](#why-three-kinds-of-reasoning)
+- [Tech stack](#tech-stack)
+- [Getting started](#getting-started)
+- [Usage example](#usage-example)
+- [Testing](#testing)
+- [Docker](#docker)
+- [Real-data validation](#real-data-validation)
+- [Project structure](#project-structure)
+- [Documentation](#documentation)
+- [Disclaimer](#disclaimer)
+
+---
+
+## Why this exists
+
+Most "AI diagnosis" demos are a single LLM call producing an answer nobody can audit. This project
+takes the opposite approach:
+
+1. **A genuinely useful clinical reasoning tool** — fast, structured, explainable triage support,
+   especially valuable where specialist access is limited or patient load is high.
+2. **A demonstration of multi-agent AI system design done properly** — deterministic, data-driven
+   reasoning where it should be auditable; genuine LLM reasoning layered on top where it adds real
+   value; measured accuracy against real clinical data; and production concerns (Docker, CI/CD,
+   109 automated tests) treated as first-class, not an afterthought.
+
+## Who it's for
+
+| Audience | What they get |
 |---|---|
-| Backend | FastAPI · LangGraph (6-agent `StateGraph` pipeline — 4 deterministic KB-driven agents + 2 LLM-based agents, see below) · SQLite · Pydantic |
-| AI/LLM | Groq (`langchain-groq`), used by two agents (`ai_reasoner`, `ai_critic`) — see below |
-| Frontend | React 19 · TypeScript · Vite · Tailwind CSS v4 · shadcn/ui |
-| Voice | Web Speech API (`SpeechRecognition` + `SpeechSynthesis`, browser-native) |
-| Infra | Docker (multi-stage build) · GitHub Actions (CI now; Render deploy hook wired but inactive until Render is set up) |
+| 🏥 **Clinicians / triage nurses** | A fast, structured, explainable differential + risk read for a patient presentation — hands-free via voice input mid-examination |
+| 📋 **Patient history / audit trail** | Every analysis is saved and searchable by patient; a clinician can attach their own confirmed diagnosis afterward to build a feedback record |
+| 🧠 **Engineers studying multi-agent AI** | A clean, small, fully-tested reference for structuring a multi-step reasoning pipeline with LangGraph — including when *not* to reach for an LLM |
+
+## Key features
+
+- 🔗 **6-agent reasoning pipeline** — 4 deterministic, knowledge-base-driven agents + 2 independent LLM agents, orchestrated with LangGraph
+- 📊 **Ranked differential diagnosis** with per-match confidence and plain-English reasoning
+- 🚦 **LOW / MEDIUM / HIGH / CRITICAL risk scoring** with an auditable points breakdown
+- 💊 **Recommended workup** — tests, treatments, and follow-up window, escalated by risk level
+- 🤖 **AI second opinion** — an independent LLM take on the same raw case, shown side by side with the rule-based result
+- 🕵️ **AI cross-check** — a second LLM agent that reviews and critiques the rule-based result itself (agrees / partially agrees / disagrees, plus concerns)
+- 🎙️ **Voice input** — speak symptoms instead of typing them, with medical-vocabulary-aware correction
+- 🖨️ **Printable clinical reports**, patient history lookup, and aggregated analytics
+- ✅ **Validated against real clinical case data** (DDXPlus) — not just unit tests
+
+## How it works
+
+```
+You (type or speak) → symptoms, age, comorbidities, labs
+        │
+        ▼
+┌─────────────────┐   "What could this be?"
+│ Symptom Analyzer │   Matches symptoms against a knowledge base, ranks candidate diagnoses
+└────────┬─────────┘
+         ▼
+┌─────────────────┐   "What do the labs say?"
+│ Lab Interpreter  │   Flags abnormal values against normal/critical reference ranges
+└────────┬─────────┘
+         ▼
+┌─────────────────┐   "How urgent is this?"
+│  Risk Assessor   │   Scores age + comorbidities + diagnosis severity + red-flag symptoms
+└────────┬─────────┘
+         ▼
+┌─────────────────┐   "What should happen next?"
+│   Recommender    │   Tests, treatments, follow-up window — escalated by the risk level
+└────────┬─────────┘
+         ▼
+┌─────────────────┐   "What's an independent AI take on this same case?"
+│  AI Reasoner     │   Calls an LLM (Groq) with the ORIGINAL input only — never the 4 steps
+│                  │   above — for a genuinely independent second opinion
+└────────┬─────────┘
+         ▼
+┌─────────────────┐   "Does the rule-based result actually hold up?"
+│  AI Critic       │   Shown the rule engine's OWN diagnosis/risk/recommendation and asked to
+│                  │   critique it — agrees / partially agrees / disagrees, plus any concerns
+└────────┬─────────┘
+         ▼
+   Ranked diagnosis + risk score + action plan + full reasoning trail +
+   AI second opinion + AI cross-check verdict
+```
+
+```
+┌────────────┐   HTTP/JSON   ┌─────────────────────┐   in-process   ┌───────────────────┐
+│  React UI   │ ────────────▶│  FastAPI (src/main)  │──────────────▶│  6-agent pipeline   │
+│ (frontend/) │◀──────────── │  /analyze /history … │◀────────────── │  (diagram above)     │
+└────────────┘               └──────────┬───────────┘                └─────────┬─────────┘
+                                         │                                       │ ai_reasoner +
+                                         ▼                                       ▼ ai_critic only
+                                 ┌───────────────┐                    ┌───────────────────┐
+                                 │ SQLite (data/) │                    │  Groq API (LLM)     │
+                                 └───────────────┘                    └───────────────────┘
+                                 every analysis saved for /history, /analytics
+```
+
+Full system design, data flow, and every field explained: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
 ## Why three kinds of reasoning
 
-The four core agents are **deterministic and KB-driven on purpose** — symptom→diagnosis scoring,
-lab reference-range interpretation, risk-factor point totals, and test/treatment recommendations
-all come from the versioned JSON knowledge base in `src/knowledge/`, not a model call, so every
-number the app produces traces back to an explicit rule (`docs/MEDICAL_KB.md`). That auditability
-matters for a clinical tool and isn't going away.
+The four core agents are **deterministic and knowledge-base-driven on purpose** — symptom→diagnosis
+scoring, lab reference-range interpretation, risk-factor point totals, and recommendations all come
+from versioned JSON (`src/knowledge/`), not a model call, so every number the app produces traces
+back to an explicit rule ([`docs/MEDICAL_KB.md`](docs/MEDICAL_KB.md)). That auditability matters for
+a clinical tool.
 
-But a rule-based pipeline alone doesn't *reason* the way "AI" usually implies, and the goal was a
-genuinely intelligent second opinion, not only a scored lookup table. A 5th agent, `ai_reasoner`
-(`src/agents/ai_reasoner.py`), closes that gap: it calls an LLM with the same raw
-symptoms/labs/age/comorbidities the Symptom Analyzer sees — never the rule engine's output, so it
-can't rubber-stamp an answer it was shown — and returns its own differential + narrative reasoning
-as `ai_opinion` in the `/analyze` response.
+But a rule-based pipeline alone doesn't *reason* the way "AI" usually implies, so two more agents
+add genuine LLM reasoning on top — and deliberately do **opposite jobs**:
 
-A 6th agent, `ai_critic` (`src/agents/ai_critic.py`), exists for a different reason: showing two
-independent opinions side by side isn't the same as *verifying* either one. AI Critic does the
-opposite of AI Reasoner on purpose — it **is** shown the rule-based `diagnoses`/`risk_assessment`/
-`recommendation` and asked to critique that specific result: an agrees/partially_agrees/disagrees
-verdict, concrete concerns, and anything clinically relevant it thinks the rule engine missed,
-returned as `ai_critique`. That's the actual cross-verification step.
+- **AI Reasoner is blind on purpose.** It never sees the rule engine's answer, because showing an
+  LLM another system's conclusion before asking its opinion invites *anchoring bias* — models tend
+  to agree with whatever they're shown first. It produces one genuinely uncontaminated data point,
+  returned as `ai_opinion`.
+- **AI Critic is informed on purpose.** It's shown the rule-based `diagnoses` / `risk_assessment` /
+  `recommendation` and asked to critique that specific result — an unprimed opinion structurally
+  cannot say "that recommended CT looks excessive" or "the risk score didn't weight this
+  comorbidity," because it never saw those choices. Returned as `ai_critique`.
 
-### Why two LLM agents, not one
+One agent alone gives you either an unaccountable second opinion or an agreeable, possibly-biased
+critique; together they triangulate — the same blind-review + informed-critique split used in real
+LLM evaluation work. Both are strictly **supplementary, not authoritative**: without a
+`GROQ_API_KEY`, `ai_opinion`/`ai_critique` are simply `null` and the rule-based result is still a
+complete answer on its own.
 
-Asking one LLM agent to just "check" the rule-based result would look cheaper, but it conflates two
-different jobs that need opposite inputs to do well:
+## Tech stack
 
-- **AI Reasoner is blind on purpose** — it never sees the rule engine's answer, because showing an
-  LLM another system's conclusion before asking its opinion invites **anchoring bias**: models tend
-  to agree with whatever they're shown first. A "yes, looks right" from a reviewer that was primed
-  with the answer is weak evidence. AI Reasoner exists to produce one genuinely uncontaminated data
-  point to compare against.
-- **AI Critic is informed on purpose** — it needs the rule-based result to say anything useful about
-  it. An unprimed opinion structurally cannot say "that CT pulmonary angiogram recommendation looks
-  excessive" or "you didn't weight the heart-disease comorbidity in the risk score" — it never saw
-  those specific choices. Only an agent shown the actual output can critique the actual output.
+| Layer | Stack |
+|---|---|
+| Backend | FastAPI · LangGraph (6-agent `StateGraph` pipeline) · SQLite · Pydantic |
+| AI / LLM | Groq (`langchain-groq`) — powers the AI Reasoner and AI Critic agents |
+| Frontend | React 19 · TypeScript · Vite · Tailwind CSS v4 · shadcn/ui |
+| Voice | Web Speech API (`SpeechRecognition` + `SpeechSynthesis`, browser-native) |
+| Infra | Docker (multi-stage build) · GitHub Actions CI/CD |
+| Testing | pytest (109 hermetic tests — no test hits the real Groq API) |
 
-This isn't hypothetical — it showed up in a live test run: AI Reasoner (blind) flagged generic red
-flags ("severe respiratory distress, hypoxia"). AI Critic (informed), looking at the same case *plus*
-the rule engine's actual risk score, caught something specific the rule-based Risk Assessor's fixed
-point table didn't weight: *"the patient's heart disease comorbidity increases cardiac-complication
-risk, which should factor into the differential and risk score."* AI Reasoner structurally couldn't
-have produced that critique — it never saw the risk score to critique. One agent alone gives you
-either an unaccountable second opinion or an agreeable, possibly-biased critique; together they
-triangulate, which is the same blind-review + informed-critique split used in real LLM
-evaluation/red-teaming work, not an invented pattern.
+## Getting started
 
-**The honest trade-off:** two Groq calls per analysis instead of one — roughly double the LLM
-latency and API cost (~2.9s vs ~1.4s end-to-end in testing). Worth it for a decision-support tool
-where catching anchoring bias matters more than shaving a second off response time; worth knowing
-as a real cost line if this ever ran at production scale.
+**Prerequisites:** Python 3.11+, Node 20+ (Docker optional — see [Docker](#docker))
 
-Both LLM agents are deliberately **supplementary, not authoritative**: if `GROQ_API_KEY` isn't set,
-or a call fails, `ai_opinion`/`ai_critique` are simply `null` and the rest of the response is
-unaffected — the auditable rule-based result is still a complete answer on its own, and neither LLM
-agent's output ever feeds back into or alters it.
+```bash
+# Clone
+git clone https://github.com/sivasoundhar/DiagnosisReasoningEngine_AI.git
+cd DiagnosisReasoningEngine_AI
 
-## Project Structure
+# Backend
+python -m venv .venv
+.venv\Scripts\activate          # Windows
+# source .venv/bin/activate     # macOS/Linux
+pip install -r requirements.txt
+cp .env.example .env            # defaults work out of the box
+
+# Frontend (separate terminal)
+cd frontend
+npm install
+cp .env.example .env
+```
+
+**Run it** (two terminals):
+
+```bash
+# Terminal 1 — backend
+uvicorn src.main:app --reload
+# → http://localhost:8000/health   → {"status": "healthy"}
+# → http://localhost:8000/docs     → interactive API docs (Swagger UI)
+
+# Terminal 2 — frontend
+cd frontend && npm run dev
+# → http://localhost:5173
+```
+
+Both need to be running together — the frontend calls the backend via `VITE_API_URL`. Open the app,
+click **"Autofill Example"** → **"Analyze Patient"** and you should see a full result in about a
+second.
+
+**Want the AI second opinion / cross-check enabled?** Get a free key at
+[console.groq.com](https://console.groq.com), set `GROQ_API_KEY` in `.env`, restart the backend.
+Without it, `ai_opinion`/`ai_critique` are simply `null` — everything else works normally.
+
+## Usage example
+
+```bash
+curl -X POST http://localhost:8000/analyze \
+  -H "Content-Type: application/json" \
+  -d '{
+    "symptoms": ["fever", "cough", "shortness of breath"],
+    "age": 62,
+    "labs": {"WBC": 12.5, "CRP": 8.5},
+    "comorbidities": ["diabetes"]
+  }'
+```
+
+Returns a ranked diagnosis (e.g. *Pneumonia, 100% confidence*), a risk score (e.g. *CRITICAL, 80
+points*, with the points broken down), a recommended workup, the full reasoning chain, plus — if
+`GROQ_API_KEY` is set — an independent AI second opinion and an AI cross-check verdict on the
+rule-based result. Full response shape and every field explained in
+[`docs/API.md`](docs/API.md).
+
+## Testing
+
+```bash
+pytest -v              # 109 tests: all 6 agents, supervisor, every API endpoint
+cd frontend && npm run build   # TypeScript check + production build
+```
+
+All tests are hermetic — a fake LLM is injected for the AI agents and `GROQ_API_KEY` is force-cleared
+for the test session, so the suite never hits the real Groq API even if your local `.env` has a key.
+
+## Docker
+
+```bash
+docker build -t diagnosis-ai:latest .
+docker run -p 8000:8000 --env-file .env diagnosis-ai:latest
+```
+
+Or the full stack in one command:
+
+```bash
+docker compose up --build
+```
+
+Image details and the deployment checklist: [`docs/DEPLOYMENT_NOTES.md`](docs/DEPLOYMENT_NOTES.md).
+
+## Real-data validation
+
+Validated against 20 real patient cases from the [DDXPlus](https://github.com/mila-iqia/ddxplus)
+dataset — one case per condition the app is designed to recognize. **75% plausible-or-better**
+(35% exact top-diagnosis match, 40% correct diagnosis present in the differential). Full
+methodology, per-case results, and honest failure analysis in
+[`docs/TEST_RESULTS.md`](docs/TEST_RESULTS.md). Reproduce with `python scripts/validate_ddxplus.py`.
+
+## Project structure
 
 ```
 src/
@@ -125,92 +283,24 @@ frontend/src/
 ├── hooks/useSpeechRecognition.ts   # Web Speech API wrapper
 └── lib/                         # Form state, fuzzy matching, date formatting, theme, etc.
 
-scripts/
-└── validate_ddxplus.py         # Real-data validation harness (see docs/TEST_RESULTS.md)
-
+scripts/validate_ddxplus.py    # Real-data validation harness
 tests/                          # 109 pytest tests across all 6 agents + supervisor + API
 docs/                           # ARCHITECTURE, API, MEDICAL_KB, TEST_RESULTS, DEPLOYMENT_NOTES
 data/                           # DDXPlus dataset (gitignored - large; used for validation only)
 ```
 
-## Setup
-
-**Requirements:** Python 3.11+, Node 20+
-
-```bash
-# Backend
-python -m venv .venv
-.venv\Scripts\activate          # Windows
-# source .venv/bin/activate     # macOS/Linux
-pip install -r requirements.txt
-cp .env.example .env
-
-# Frontend
-cd frontend
-npm install
-cp .env.example .env
-```
-
-## Running Locally
-
-**Backend** (one terminal):
-```bash
-uvicorn src.main:app --reload
-```
-- http://localhost:8000/health → `{"status": "healthy"}`
-- http://localhost:8000/docs → interactive API docs (Swagger UI)
-
-**Frontend** (second terminal):
-```bash
-cd frontend
-npm run dev
-```
-- http://localhost:5173
-
-Both need to be running together — the frontend calls the backend via `VITE_API_URL`.
-
-## Testing
-
-```bash
-pytest -v              # 109 tests: all 6 agents, supervisor, API endpoints (hermetic - no real Groq calls)
-```
-
-```bash
-cd frontend
-npm run build           # TypeScript check + production build
-```
-
-## Docker
-
-```bash
-docker build -t diagnosis-ai:latest .
-docker run -p 8000:8000 --env-file .env diagnosis-ai:latest
-```
-
-Or the full stack (backend + dev-mode frontend) with docker-compose:
-```bash
-docker compose up --build
-```
-
-See `docs/DEPLOYMENT_NOTES.md` for image details and the Render deployment checklist.
-
-## Real-Data Validation
-
-Validated against 20 real patient cases from the [DDXPlus](https://github.com/mila-iqia/ddxplus)
-dataset — one case per condition the app is designed to recognize. **75% plausible-or-better**
-(35% exact top-diagnosis match, 40% correct diagnosis present in the differential). Full
-methodology, per-case results, and honest failure analysis in `docs/TEST_RESULTS.md`. Reproduce
-with `python scripts/validate_ddxplus.py`.
-
 ## Documentation
 
-- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — system design, agent pipeline, data flow
-- [`docs/API.md`](docs/API.md) — endpoint reference with example requests/responses
-- [`docs/MEDICAL_KB.md`](docs/MEDICAL_KB.md) — knowledge base structure and how to extend it
-- [`docs/TEST_RESULTS.md`](docs/TEST_RESULTS.md) — real-data validation results
-- [`docs/DEPLOYMENT_NOTES.md`](docs/DEPLOYMENT_NOTES.md) — Docker details + Render checklist
+| Doc | What's in it |
+|---|---|
+| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | System design, agent pipeline, data flow |
+| [`docs/API.md`](docs/API.md) | Endpoint reference with example requests/responses |
+| [`docs/MEDICAL_KB.md`](docs/MEDICAL_KB.md) | Knowledge base structure and how to extend it |
+| [`docs/TEST_RESULTS.md`](docs/TEST_RESULTS.md) | Real-data validation methodology + results |
+| [`docs/DEPLOYMENT_NOTES.md`](docs/DEPLOYMENT_NOTES.md) | Docker details + deployment checklist |
+| [`docs/PROJECT_GUIDE.md`](docs/PROJECT_GUIDE.md) | The full "read this first" deep-dive doc |
 
 ## Disclaimer
 
-Educational and research use only. Not a medical device. Not a substitute for professional medical
-judgment. Always consult a qualified healthcare provider.
+Educational and research use only. **Not a medical device.** Not a substitute for professional
+medical judgment. Always consult a qualified healthcare provider.
