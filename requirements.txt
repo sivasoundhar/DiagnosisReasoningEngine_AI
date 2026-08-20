@@ -1,0 +1,35 @@
+# --- Backend framework ---
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+
+# --- AI / Agents ---
+# The 4 original agents (Days 2-5) and the supervisor (Day 6) are deterministic,
+# KB-driven LangGraph StateGraphs. Day 12 added a 5th agent (ai_reasoner, an
+# independent LLM second opinion) and Day 13 added a 6th (ai_critic, an LLM
+# cross-check of the rule-based result) - both genuinely call an LLM (Groq),
+# see src/agents/ai_reasoner.py, src/agents/ai_critic.py, and
+# docs/ARCHITECTURE.md. langchain-groq was previously removed as dead weight
+# (Day 11) and is now back in actual use by both.
+langgraph==0.2.62
+langchain==0.3.14
+langchain-community==0.3.14
+langchain-groq==0.2.3
+
+# --- Database ---
+sqlalchemy==2.0.36
+
+# --- Config ---
+pydantic==2.10.4
+pydantic-settings==2.7.1
+python-dotenv==1.0.1
+
+# --- HTTP ---
+httpx==0.28.1
+
+# --- Testing ---
+pytest==8.3.4
+pytest-asyncio==0.25.1
+pytest-cov==6.0.0
+
+# --- Logging / Utils ---
+python-multipart==0.0.20

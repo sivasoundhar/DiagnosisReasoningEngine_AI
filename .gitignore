@@ -1,0 +1,39 @@
+# --- Secrets ---
+.env
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+venv/
+.venv/
+
+# --- Data (gitignored per project rules; large MIMIC/DDXPlus files stay local-only) ---
+data/
+
+# --- Frontend ---
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+
+# --- Docker ---
+*.log
+
+# --- OS / Editor ---
+.DS_Store
+.vscode/
+.idea/
+
+# --- Claude Code local settings (machine-specific tool permissions, not project config) ---
+.claude/settings.local.json
+
+# --- Personal scratch notes (not project documentation) ---
+manual_start.txt
+
+# --- Internal build process (not for public repo: reveals AI-assisted build history) ---
+PROJECT_1_DiagnosisReasoningEngine_CLAUDE.md
+docs/BUILD_LOG.md

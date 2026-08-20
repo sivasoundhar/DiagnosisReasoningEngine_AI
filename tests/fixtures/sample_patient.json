@@ -1,0 +1,6 @@
+{
+  "symptoms": ["fever", "cough", "shortness of breath"],
+  "labs": {"WBC": 11.2, "CRP": 8.5, "glucose": 120},
+  "age": 45,
+  "comorbidities": ["diabetes"]
+}

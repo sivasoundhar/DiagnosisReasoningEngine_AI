@@ -1,0 +1,17 @@
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.git/
+.gitignore
+.env
+data/
+frontend/node_modules/
+frontend/dist/
+tests/
+docs/
+*.md
+UI1.png
+UIS.png

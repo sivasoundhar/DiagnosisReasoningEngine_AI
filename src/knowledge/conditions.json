@@ -1,0 +1,195 @@
+{
+  "_meta": {
+    "description": "Disease definitions. Day 5 extends each entry with tests/treatments/follow_up for the Recommender agent. Risk-level escalation on top of these baselines lives in recommendations.json, not here.",
+    "condition_names_aligned_with": "data/release_conditions.json (DDXPlus dataset)"
+  },
+  "Pneumonia": {
+    "description": "Infection that inflames air sacs in one or both lungs.",
+    "severity": "moderate",
+    "typical_symptoms": ["fever", "cough", "shortness of breath", "chills", "sputum production"],
+    "risk_factors": ["age > 65", "smoking", "chronic lung disease", "weakened immune system"],
+    "tests": ["Chest X-ray", "Blood culture", "CBC", "Basic metabolic panel", "Sputum culture", "Pulse oximetry"],
+    "treatments": ["Antibiotic (amoxicillin or azithromycin)", "Supportive care", "Monitor O2 saturation"],
+    "follow_up": "48-72 hours to assess treatment response"
+  },
+  "Influenza": {
+    "description": "Viral infection attacking the respiratory system.",
+    "severity": "mild",
+    "typical_symptoms": ["fever", "muscle aches", "chills", "fatigue", "headache"],
+    "risk_factors": ["seasonal exposure", "unvaccinated", "close contact with infected person"],
+    "tests": ["Rapid influenza test", "CBC"],
+    "treatments": ["Antiviral medication (if within 48h of onset)", "Rest and fluids", "Supportive care"],
+    "follow_up": "5-7 days if symptoms persist or worsen"
+  },
+  "URTI": {
+    "description": "Upper respiratory tract infection (common cold).",
+    "severity": "mild",
+    "typical_symptoms": ["sore throat", "runny nose", "nasal congestion", "cough"],
+    "risk_factors": ["seasonal exposure", "close contact with infected person"],
+    "tests": ["Vital signs monitoring"],
+    "treatments": ["Rest and fluids", "Supportive care"],
+    "follow_up": "7-10 days if not resolving"
+  },
+  "Bronchitis": {
+    "description": "Inflammation of the bronchial tubes carrying air to the lungs.",
+    "severity": "mild",
+    "typical_symptoms": ["cough", "sputum production", "wheezing", "fatigue"],
+    "risk_factors": ["smoking", "recent viral infection", "air pollution exposure"],
+    "tests": ["Chest X-ray", "Sputum culture", "Pulse oximetry"],
+    "treatments": ["Supportive care", "Bronchodilator (albuterol)", "Rest and fluids"],
+    "follow_up": "1-2 weeks if cough persists"
+  },
+  "Acute COPD exacerbation / infection": {
+    "description": "Sudden worsening of chronic obstructive pulmonary disease symptoms.",
+    "severity": "severe",
+    "typical_symptoms": ["shortness of breath", "wheezing", "sputum production", "cough"],
+    "risk_factors": ["smoking history", "existing COPD diagnosis", "age > 60"],
+    "tests": ["Chest X-ray", "Pulse oximetry", "CBC", "Sputum culture"],
+    "treatments": ["Bronchodilator (albuterol)", "Inhaled corticosteroid", "Oxygen therapy", "Antibiotic (amoxicillin or azithromycin)"],
+    "follow_up": "24-48 hours"
+  },
+  "Bronchospasm / acute asthma exacerbation": {
+    "description": "Sudden narrowing of the airways causing breathing difficulty.",
+    "severity": "moderate",
+    "typical_symptoms": ["wheezing", "shortness of breath", "cough"],
+    "risk_factors": ["known asthma", "allergen exposure", "cold air", "exercise"],
+    "tests": ["Peak flow measurement", "Pulse oximetry", "Spirometry"],
+    "treatments": ["Bronchodilator (albuterol)", "Inhaled corticosteroid", "Oxygen therapy"],
+    "follow_up": "24-48 hours"
+  },
+  "Pulmonary embolism": {
+    "description": "Blockage in a pulmonary artery, usually from a blood clot.",
+    "severity": "severe",
+    "typical_symptoms": ["shortness of breath", "chest pain", "swelling in legs", "syncope"],
+    "risk_factors": ["recent surgery", "immobility", "clotting disorder", "long travel"],
+    "tests": ["D-dimer", "CT pulmonary angiogram", "Pulse oximetry", "ECG"],
+    "treatments": ["Anticoagulation therapy", "Oxygen therapy"],
+    "follow_up": "24-48 hours, inpatient"
+  },
+  "Spontaneous pneumothorax": {
+    "description": "Collapsed lung due to air leaking into the space between lung and chest wall.",
+    "severity": "severe",
+    "typical_symptoms": ["shortness of breath", "chest pain"],
+    "risk_factors": ["tall thin body type", "smoking", "underlying lung disease"],
+    "tests": ["Chest X-ray", "Chest CT scan", "Pulse oximetry"],
+    "treatments": ["Oxygen therapy", "Chest tube placement (if large)"],
+    "follow_up": "24-48 hours"
+  },
+  "GERD": {
+    "description": "Gastroesophageal reflux disease - stomach acid flowing back into the esophagus.",
+    "severity": "mild",
+    "typical_symptoms": ["heartburn", "abdominal pain", "nausea", "chest pain"],
+    "risk_factors": ["obesity", "smoking", "pregnancy", "hiatal hernia"],
+    "tests": ["Upper endoscopy"],
+    "treatments": ["Proton pump inhibitor", "Dietary modification"],
+    "follow_up": "4-6 weeks if symptoms persist"
+  },
+  "Pericarditis": {
+    "description": "Inflammation of the pericardium, the sac surrounding the heart.",
+    "severity": "moderate",
+    "typical_symptoms": ["chest pain", "shortness of breath"],
+    "risk_factors": ["recent viral infection", "autoimmune disease", "recent heart attack"],
+    "tests": ["ECG", "Echocardiogram", "CBC"],
+    "treatments": ["NSAIDs (e.g. ibuprofen)", "Colchicine"],
+    "follow_up": "1-2 weeks"
+  },
+  "Myocarditis": {
+    "description": "Inflammation of the heart muscle.",
+    "severity": "severe",
+    "typical_symptoms": ["chest pain", "shortness of breath", "fatigue", "palpitations"],
+    "risk_factors": ["recent viral infection", "autoimmune disease"],
+    "tests": ["ECG", "Troponin", "Echocardiogram"],
+    "treatments": ["Supportive care", "Beta-blocker"],
+    "follow_up": "48-72 hours, inpatient monitoring"
+  },
+  "Possible NSTEMI / STEMI": {
+    "description": "Acute myocardial infarction (heart attack) - partial or complete coronary blockage.",
+    "severity": "critical",
+    "typical_symptoms": ["chest pain", "shortness of breath", "sweating", "nausea", "syncope"],
+    "risk_factors": ["diabetes", "hypertension", "smoking", "high cholesterol", "family history"],
+    "tests": ["ECG", "Troponin", "Coronary angiography"],
+    "treatments": ["Aspirin", "Nitroglycerin", "Emergency reperfusion therapy (PCI)"],
+    "follow_up": "Immediate - continuous monitoring"
+  },
+  "Unstable angina": {
+    "description": "Reduced blood flow to the heart, chest pain at rest or worsening pattern.",
+    "severity": "severe",
+    "typical_symptoms": ["chest pain", "shortness of breath", "sweating"],
+    "risk_factors": ["coronary artery disease", "diabetes", "hypertension", "smoking"],
+    "tests": ["ECG", "Troponin", "Stress test"],
+    "treatments": ["Aspirin", "Nitroglycerin", "Beta-blocker"],
+    "follow_up": "24 hours, inpatient monitoring"
+  },
+  "Stable angina": {
+    "description": "Predictable chest pain from reduced blood flow, typically with exertion.",
+    "severity": "moderate",
+    "typical_symptoms": ["chest pain", "shortness of breath"],
+    "risk_factors": ["coronary artery disease", "diabetes", "hypertension"],
+    "tests": ["ECG", "Stress test"],
+    "treatments": ["Nitroglycerin", "Beta-blocker"],
+    "follow_up": "1-2 weeks"
+  },
+  "Atrial fibrillation": {
+    "description": "Irregular, often rapid heart rhythm originating in the atria.",
+    "severity": "moderate",
+    "typical_symptoms": ["palpitations", "rapid heart rate", "dizziness", "shortness of breath", "syncope"],
+    "risk_factors": ["age > 65", "hypertension", "heart disease", "hyperthyroidism"],
+    "tests": ["ECG", "Cardiac monitoring", "Echocardiogram"],
+    "treatments": ["Rate/rhythm control medication", "Anticoagulant (for AFib)"],
+    "follow_up": "1 week"
+  },
+  "Anemia": {
+    "description": "Deficiency of red blood cells or hemoglobin, reducing oxygen delivery.",
+    "severity": "mild",
+    "typical_symptoms": ["fatigue", "pale skin", "dizziness", "palpitations"],
+    "risk_factors": ["iron deficiency", "chronic disease", "menstrual blood loss", "poor diet"],
+    "tests": ["CBC", "Iron studies"],
+    "treatments": ["Iron supplementation", "Blood transfusion (if severe)"],
+    "follow_up": "4-6 weeks to recheck hemoglobin"
+  },
+  "Panic attack": {
+    "description": "Sudden episode of intense fear with physical symptoms, no underlying cardiac cause.",
+    "severity": "mild",
+    "typical_symptoms": ["palpitations", "rapid heart rate", "sweating", "dizziness"],
+    "risk_factors": ["anxiety disorder", "high stress", "prior panic attacks"],
+    "tests": ["ECG", "Blood glucose test", "Thyroid function tests"],
+    "treatments": ["Reassurance and breathing techniques", "Anti-anxiety medication (short-term)"],
+    "follow_up": "1-2 weeks, consider outpatient counseling referral"
+  },
+  "Viral pharyngitis": {
+    "description": "Viral infection causing inflammation of the throat.",
+    "severity": "mild",
+    "typical_symptoms": ["sore throat", "fever"],
+    "risk_factors": ["seasonal exposure", "close contact with infected person"],
+    "tests": ["Rapid strep test"],
+    "treatments": ["Rest and fluids", "Supportive care"],
+    "follow_up": "5-7 days if not improving"
+  },
+  "Acute rhinosinusitis": {
+    "description": "Inflammation of the nasal passages and sinuses.",
+    "severity": "mild",
+    "typical_symptoms": ["nasal congestion", "runny nose", "headache", "sore throat"],
+    "risk_factors": ["recent viral infection", "allergies", "nasal polyps"],
+    "tests": ["Vital signs monitoring"],
+    "treatments": ["Supportive care", "Rest and fluids", "Nasal saline irrigation"],
+    "follow_up": "10 days if not improving (possible bacterial superinfection)"
+  },
+  "Anaphylaxis": {
+    "description": "Severe, potentially life-threatening allergic reaction.",
+    "severity": "critical",
+    "typical_symptoms": ["hives", "throat swelling", "shortness of breath", "rapid heart rate"],
+    "risk_factors": ["known allergy", "prior anaphylactic episode", "insect sting", "food allergy"],
+    "tests": ["Vital signs monitoring", "Allergy testing (post-recovery)"],
+    "treatments": ["Epinephrine injection", "Antihistamines", "IV fluids"],
+    "follow_up": "Immediate - emergency department observation, 4-6 hours minimum"
+  },
+  "Sepsis": {
+    "description": "Life-threatening organ dysfunction caused by a dysregulated immune response to infection.",
+    "severity": "critical",
+    "typical_symptoms": ["fever", "rapid heart rate", "shortness of breath", "chills"],
+    "risk_factors": ["age > 65", "weakened immune system", "chronic illness", "recent infection or surgery"],
+    "tests": ["Blood culture", "CBC", "Basic metabolic panel", "Vital signs monitoring"],
+    "treatments": ["Broad-spectrum IV antibiotics", "IV fluids", "Vasopressors (if needed)"],
+    "follow_up": "Immediate - ICU-level monitoring"
+  }
+}

@@ -1,0 +1,112 @@
+{
+  "_meta": {
+    "description": "Risk-level escalation rules and shared clinical rationale text for the Day 5 Recommender agent. Per-diagnosis baseline tests/treatments live in conditions.json; this file layers risk-level and age adjustments on top."
+  },
+  "default_risk_level": "MEDIUM",
+  "unknown_diagnosis_workup": {
+    "tests": ["CBC", "Basic metabolic panel", "Vital signs monitoring"],
+    "treatments": ["Supportive care", "Further diagnostic workup to establish diagnosis"]
+  },
+  "risk_level_actions": {
+    "LOW": {
+      "additional_tests": [],
+      "additional_treatments": ["Outpatient management appropriate"],
+      "setting": "outpatient"
+    },
+    "MEDIUM": {
+      "additional_tests": ["Repeat vital signs in 4-6 hours"],
+      "additional_treatments": ["Consider short observation period"],
+      "setting": "observation"
+    },
+    "HIGH": {
+      "additional_tests": ["Continuous pulse oximetry", "Repeat labs in 12 hours"],
+      "additional_treatments": ["Hospital admission for close monitoring"],
+      "setting": "inpatient"
+    },
+    "CRITICAL": {
+      "additional_tests": ["Continuous cardiac and vital sign monitoring", "Arterial blood gas"],
+      "additional_treatments": ["ICU admission", "Immediate stabilization measures"],
+      "setting": "ICU"
+    }
+  },
+  "follow_up_by_risk_level": {
+    "LOW": "Follow up in 1-2 weeks if symptoms are not improving.",
+    "MEDIUM": "Recheck labs and symptoms within 48 hours.",
+    "HIGH": "Daily monitoring required while hospitalized.",
+    "CRITICAL": "Continuous ICU monitoring required."
+  },
+  "elderly_age_threshold": 65,
+  "elderly_additional_tests": ["ECG (baseline cardiac assessment)", "Renal function panel (medication dose adjustment)"],
+  "test_rationale": {
+    "Chest X-ray": "Confirms diagnosis and assesses severity or extent",
+    "Blood culture": "Identifies the causative organism to guide targeted antibiotic therapy",
+    "CBC": "Assesses infection, inflammation, or anemia severity via blood cell counts",
+    "Basic metabolic panel": "Checks kidney function and electrolyte balance",
+    "Sputum culture": "Identifies the causative organism in the airway",
+    "Pulse oximetry": "Measures blood oxygen saturation",
+    "Rapid influenza test": "Confirms influenza to guide antiviral treatment timing",
+    "Rapid strep test": "Rules out bacterial (strep) cause of sore throat",
+    "Vital signs monitoring": "Tracks basic physiological stability over time",
+    "Peak flow measurement": "Quantifies airway obstruction severity",
+    "Spirometry": "Assesses lung function and degree of airway obstruction",
+    "D-dimer": "Screens for clot activity; elevated result raises suspicion for thromboembolism",
+    "CT pulmonary angiogram": "Directly visualizes pulmonary arteries to confirm or rule out embolism",
+    "Chest CT scan": "Provides detailed imaging when X-ray findings are inconclusive",
+    "Upper endoscopy": "Directly visualizes the esophageal lining to assess reflux damage",
+    "ECG": "Detects heart rhythm abnormalities and ischemic changes",
+    "Troponin": "Detects myocardial injury indicating a possible heart attack",
+    "Echocardiogram": "Assesses heart structure, function, and surrounding fluid",
+    "Coronary angiography": "Directly visualizes coronary arteries to locate blockages",
+    "Stress test": "Evaluates heart function under exertion to detect reduced blood flow",
+    "Cardiac monitoring": "Continuously tracks heart rhythm to catch arrhythmias",
+    "Iron studies": "Determines the cause and severity of anemia",
+    "Blood glucose test": "Rules out hypoglycemia as a cause of symptoms",
+    "Thyroid function tests": "Rules out thyroid dysfunction as a cause of palpitations or rhythm changes",
+    "Allergy testing (post-recovery)": "Identifies the specific allergen trigger once the patient is stable",
+    "Continuous pulse oximetry": "Detects early respiratory deterioration in real time",
+    "Repeat labs in 12 hours": "Tracks whether the patient is trending toward improvement or decline",
+    "Repeat vital signs in 4-6 hours": "Confirms the patient remains stable before discharge",
+    "Continuous cardiac and vital sign monitoring": "Catches sudden deterioration immediately in a critical patient",
+    "Arterial blood gas": "Directly measures oxygenation, ventilation, and acid-base status in critical illness",
+    "ECG (baseline cardiac assessment)": "Establishes a cardiac baseline before treatment in older patients",
+    "Renal function panel (medication dose adjustment)": "Guides safe medication dosing given age-related kidney function decline"
+  },
+  "treatment_rationale": {
+    "Antibiotic (amoxicillin or azithromycin)": "Targets the likely bacterial cause of infection",
+    "Supportive care": "Manages symptoms while the underlying process resolves",
+    "Monitor O2 saturation": "Detects early respiratory deterioration",
+    "Rest and fluids": "Supports the body's natural recovery process",
+    "Antiviral medication (if within 48h of onset)": "Reduces severity and duration when started early",
+    "Bronchodilator (albuterol)": "Relaxes airway muscles to relieve wheezing and obstruction",
+    "Inhaled corticosteroid": "Reduces airway inflammation",
+    "Oxygen therapy": "Corrects low blood oxygen levels",
+    "Anticoagulation therapy": "Prevents clot growth and new clot formation",
+    "Chest tube placement (if large)": "Re-expands the collapsed lung by removing trapped air",
+    "Proton pump inhibitor": "Reduces stomach acid production to relieve reflux symptoms",
+    "Dietary modification": "Reduces dietary triggers of symptoms",
+    "NSAIDs (e.g. ibuprofen)": "Reduces pericardial inflammation and pain",
+    "Colchicine": "Reduces recurrence of pericardial inflammation",
+    "Aspirin": "Reduces further clot formation in acute coronary syndrome",
+    "Nitroglycerin": "Relieves chest pain by dilating coronary arteries",
+    "Beta-blocker": "Reduces the heart's oxygen demand and controls heart rate",
+    "Emergency reperfusion therapy (PCI)": "Restores blood flow to the blocked coronary artery",
+    "Anticoagulant (for AFib)": "Reduces stroke risk from atrial clot formation",
+    "Rate/rhythm control medication": "Normalizes heart rate or rhythm",
+    "Iron supplementation": "Replenishes iron stores to correct anemia",
+    "Blood transfusion (if severe)": "Rapidly restores oxygen-carrying capacity in severe anemia",
+    "Reassurance and breathing techniques": "Reduces panic symptoms without medication",
+    "Anti-anxiety medication (short-term)": "Provides rapid symptom relief in severe cases",
+    "Nasal saline irrigation": "Clears nasal passages and reduces congestion",
+    "Epinephrine injection": "Reverses a life-threatening allergic reaction immediately",
+    "Antihistamines": "Reduces allergic symptoms",
+    "IV fluids": "Supports blood pressure and organ perfusion",
+    "Broad-spectrum IV antibiotics": "Covers likely pathogens immediately while cultures are pending",
+    "Vasopressors (if needed)": "Maintains adequate blood pressure in shock",
+    "Outpatient management appropriate": "Condition is stable enough for home management with routine follow-up",
+    "Consider short observation period": "Allows brief monitoring to confirm the patient is trending toward improvement",
+    "Hospital admission for close monitoring": "Enables rapid response to deterioration that outpatient care can't provide",
+    "ICU admission": "Provides continuous monitoring and immediate intervention capability",
+    "Immediate stabilization measures": "Addresses life-threatening derangements before further workup",
+    "Further diagnostic workup to establish diagnosis": "Narrows the differential when no diagnosis is confidently established yet"
+  }
+}

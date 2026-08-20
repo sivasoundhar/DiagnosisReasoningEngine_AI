@@ -1,0 +1,135 @@
+{
+  "_meta": {
+    "description": "Symptom -> candidate diagnoses mapping. 'match' drives Day 2 confidence scoring: exact=+50, partial=+25, indirect=+10.",
+    "condition_names_aligned_with": "data/release_conditions.json (DDXPlus dataset)"
+  },
+  "fever": [
+    {"name": "Pneumonia", "match": "exact"},
+    {"name": "Influenza", "match": "exact"},
+    {"name": "URTI", "match": "partial"}
+  ],
+  "cough": [
+    {"name": "Pneumonia", "match": "exact"},
+    {"name": "Bronchitis", "match": "exact"},
+    {"name": "URTI", "match": "partial"}
+  ],
+  "shortness of breath": [
+    {"name": "Pneumonia", "match": "exact"},
+    {"name": "Pulmonary embolism", "match": "exact"},
+    {"name": "Bronchospasm / acute asthma exacerbation", "match": "exact"},
+    {"name": "Spontaneous pneumothorax", "match": "partial"}
+  ],
+  "chest pain": [
+    {"name": "Possible NSTEMI / STEMI", "match": "exact"},
+    {"name": "Unstable angina", "match": "exact"},
+    {"name": "Stable angina", "match": "exact"},
+    {"name": "Pericarditis", "match": "partial"},
+    {"name": "GERD", "match": "indirect"}
+  ],
+  "sore throat": [
+    {"name": "Viral pharyngitis", "match": "exact"},
+    {"name": "URTI", "match": "exact"},
+    {"name": "Acute rhinosinusitis", "match": "partial"}
+  ],
+  "runny nose": [
+    {"name": "URTI", "match": "exact"},
+    {"name": "Acute rhinosinusitis", "match": "exact"},
+    {"name": "Influenza", "match": "partial"}
+  ],
+  "nasal congestion": [
+    {"name": "Acute rhinosinusitis", "match": "exact"},
+    {"name": "URTI", "match": "exact"},
+    {"name": "Influenza", "match": "indirect"}
+  ],
+  "sputum production": [
+    {"name": "Bronchitis", "match": "exact"},
+    {"name": "Pneumonia", "match": "exact"},
+    {"name": "Acute COPD exacerbation / infection", "match": "partial"}
+  ],
+  "wheezing": [
+    {"name": "Bronchospasm / acute asthma exacerbation", "match": "exact"},
+    {"name": "Acute COPD exacerbation / infection", "match": "exact"},
+    {"name": "Bronchitis", "match": "partial"}
+  ],
+  "fatigue": [
+    {"name": "Anemia", "match": "exact"},
+    {"name": "Influenza", "match": "partial"},
+    {"name": "Pneumonia", "match": "indirect"}
+  ],
+  "headache": [
+    {"name": "Influenza", "match": "partial"},
+    {"name": "Acute rhinosinusitis", "match": "partial"},
+    {"name": "Anemia", "match": "indirect"}
+  ],
+  "dizziness": [
+    {"name": "Anemia", "match": "exact"},
+    {"name": "Atrial fibrillation", "match": "partial"},
+    {"name": "Panic attack", "match": "indirect"}
+  ],
+  "palpitations": [
+    {"name": "Atrial fibrillation", "match": "exact"},
+    {"name": "Panic attack", "match": "exact"},
+    {"name": "Anemia", "match": "partial"}
+  ],
+  "nausea": [
+    {"name": "Possible NSTEMI / STEMI", "match": "partial"},
+    {"name": "GERD", "match": "partial"},
+    {"name": "Influenza", "match": "indirect"}
+  ],
+  "vomiting": [
+    {"name": "GERD", "match": "partial"},
+    {"name": "Influenza", "match": "indirect"}
+  ],
+  "diarrhea": [
+    {"name": "Influenza", "match": "indirect"}
+  ],
+  "abdominal pain": [
+    {"name": "GERD", "match": "exact"}
+  ],
+  "heartburn": [
+    {"name": "GERD", "match": "exact"}
+  ],
+  "night sweats": [
+    {"name": "Pneumonia", "match": "partial"},
+    {"name": "Influenza", "match": "partial"}
+  ],
+  "chills": [
+    {"name": "Pneumonia", "match": "exact"},
+    {"name": "Influenza", "match": "exact"}
+  ],
+  "muscle aches": [
+    {"name": "Influenza", "match": "exact"},
+    {"name": "URTI", "match": "partial"}
+  ],
+  "loss of appetite": [
+    {"name": "Influenza", "match": "partial"},
+    {"name": "Pneumonia", "match": "indirect"}
+  ],
+  "swelling in legs": [
+    {"name": "Pulmonary embolism", "match": "partial"},
+    {"name": "Atrial fibrillation", "match": "indirect"}
+  ],
+  "pale skin": [
+    {"name": "Anemia", "match": "exact"}
+  ],
+  "rapid heart rate": [
+    {"name": "Atrial fibrillation", "match": "exact"},
+    {"name": "Panic attack", "match": "partial"},
+    {"name": "Anaphylaxis", "match": "partial"}
+  ],
+  "sweating": [
+    {"name": "Possible NSTEMI / STEMI", "match": "partial"},
+    {"name": "Panic attack", "match": "partial"}
+  ],
+  "syncope": [
+    {"name": "Possible NSTEMI / STEMI", "match": "partial"},
+    {"name": "Atrial fibrillation", "match": "partial"},
+    {"name": "Pulmonary embolism", "match": "partial"}
+  ],
+  "hives": [
+    {"name": "Anaphylaxis", "match": "exact"}
+  ],
+  "throat swelling": [
+    {"name": "Anaphylaxis", "match": "exact"}
+  ]
+}

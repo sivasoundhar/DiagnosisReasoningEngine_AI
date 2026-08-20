@@ -1,0 +1,45 @@
+{
+  "_meta": {
+    "description": "Scoring weights for the Day 4 Risk Assessor agent. Kept as data (not Python constants) per project rule: medical KB is data-driven.",
+    "total_score_to_level": "0-25=LOW, 26-50=MEDIUM, 51-75=HIGH, 76+=CRITICAL"
+  },
+  "age_brackets": [
+    {"min": 0, "max": 30, "points": 0},
+    {"min": 31, "max": 60, "points": 10},
+    {"min": 61, "max": 75, "points": 20},
+    {"min": 76, "max": 200, "points": 30}
+  ],
+  "default_age_points": 10,
+  "comorbidity_points": {
+    "diabetes": 15,
+    "heart disease": 25,
+    "cancer": 30,
+    "kidney disease": 20,
+    "liver disease": 25
+  },
+  "severity_points": {
+    "mild": 10,
+    "moderate": 30,
+    "severe": 50,
+    "critical": 70
+  },
+  "default_severity_points": 30,
+  "severity_indicator_points": {
+    "shortness of breath": 15,
+    "chest pain": 20,
+    "confusion": 25,
+    "hypotension": 30
+  },
+  "risk_level_thresholds": [
+    {"max": 25, "level": "LOW"},
+    {"max": 50, "level": "MEDIUM"},
+    {"max": 75, "level": "HIGH"},
+    {"max": 999999, "level": "CRITICAL"}
+  ],
+  "complications_by_level": {
+    "LOW": ["Low risk of complications; routine outpatient follow-up appropriate"],
+    "MEDIUM": ["Monitor for symptom progression", "Recheck labs within 48 hours if not improving"],
+    "HIGH": ["Risk of respiratory failure", "Consider ICU admission", "Close inpatient monitoring recommended"],
+    "CRITICAL": ["Immediate hospitalization recommended", "Risk of multi-organ failure", "Continuous monitoring required"]
+  }
+}
