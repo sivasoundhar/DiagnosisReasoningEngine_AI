@@ -101,12 +101,12 @@ Runs the full 6-agent pipeline on a patient and persists the result.
 *(`diagnoses`/`recommendation` arrays truncated above for readability — see the pipeline docs in
 `docs/ARCHITECTURE.md` for full field meaning.)*
 
-**`ai_opinion`** is the Day 12 AI Reasoning Agent's independent LLM (Groq) second opinion — built
+**`ai_opinion`** is the AI Reasoning Agent's independent LLM (Groq) second opinion — built
 from the same raw `symptoms`/`labs`/`age`/`comorbidities` as the request, never from the rule
 engine's own `diagnoses`/`risk_assessment`/`recommendation`, so it's a genuinely separate take, not
 a rephrasing of the rule-based result.
 
-**`ai_critique`** is the Day 13 AI Critic Agent's cross-check — the opposite input contract from
+**`ai_critique`** is the AI Critic Agent's cross-check — the opposite input contract from
 `ai_opinion`: it IS shown the rule-based `diagnoses`/`risk_assessment`/`recommendation` and asked to
 review that specific result. `assessment` is always one of `agrees`/`partially_agrees`/`disagrees`;
 `concerns` and `missed_considerations` are empty arrays (not omitted) when the model has none to

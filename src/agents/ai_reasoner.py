@@ -1,6 +1,6 @@
-"""AI Reasoning Agent (Day 12): a genuine LLM-based independent second opinion.
+"""AI Reasoning Agent: a genuine LLM-based independent second opinion.
 
-Every other agent (Days 2-5) is deterministic and KB-driven on purpose - the
+Every other agent is deterministic and KB-driven on purpose - the
 auditable core of this app, and it stays that way. This agent is different by
 design: it calls an LLM (Groq) to reason over the same raw case the Symptom
 Analyzer sees - symptoms, labs, age, comorbidities - and produces its own

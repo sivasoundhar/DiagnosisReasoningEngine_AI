@@ -16,7 +16,7 @@ and what isn't.
 One test patient is selected per condition name that exists in BOTH this
 app's src/knowledge/conditions.json (21 entries) and DDXPlus's 49
 conditions (20 overlap - only "Sepsis" doesn't, added later for a specific
-Day 4 scenario) - not a random sample, so results reflect exactly one real
+test scenario) - not a random sample, so results reflect exactly one real
 case per condition this app is actually designed to recognize, and every
 condition it knows about gets covered exactly once.
 
@@ -285,10 +285,10 @@ def main() -> None:
 
     output = run_validation()
 
-    results_path = RESULTS_DIR / "day10_validation_results.json"
+    results_path = RESULTS_DIR / "validation_results.json"
     results_path.write_text(json.dumps(output, indent=2), encoding="utf-8")
 
-    cases_path = TEST_CASES_DIR / "day10_selected_cases.json"
+    cases_path = TEST_CASES_DIR / "selected_cases.json"
     cases_path.write_text(
         json.dumps([{"pathology": c["pathology"], **c} for c in output["cases"]], indent=2), encoding="utf-8"
     )

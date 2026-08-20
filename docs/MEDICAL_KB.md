@@ -20,7 +20,7 @@ the app produces can be traced back to a specific line in one of these files.
 +10 points toward that diagnosis. `medical_kb.py` also has `SYMPTOM_SYNONYMS` (~26 common
 abbreviations, e.g. `SOB` → `shortness of breath`) applied before lookup, and
 `normalize_symptom()`/`get_diagnoses_for_symptom()` are the actual lookup path every agent (and the
-Day 10 validation script) goes through.
+validation script) goes through.
 
 ## `labs.json` — 15 labs, reference ranges + interpretations
 
@@ -58,8 +58,8 @@ trusted as real — treated as a likely data-entry error.
 `severity` (`mild`/`moderate`/`severe`/`critical`) feeds the Risk Assessor's diagnosis-severity
 points. `tests`/`treatments`/`follow_up` are the Recommender's per-condition baseline, before
 risk-level escalation. **20 of these 21 condition names exactly match a DDXPlus pathology name**
-(chosen deliberately so Day 10 validation lines up without renaming) — only `Sepsis` doesn't, added
-later for a specific test scenario.
+(chosen deliberately so real-data validation lines up without renaming) — only `Sepsis` doesn't,
+added later for a specific test scenario.
 
 ## `risk_factors.json` — Risk Assessor scoring weights
 

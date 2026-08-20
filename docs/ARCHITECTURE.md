@@ -10,7 +10,7 @@
                                                       │
                                                       ▼
                                     ┌─────────────────────────────────┐
-                                    │   DiagnosisSupervisor (Day 6)    │
+                                    │   DiagnosisSupervisor            │
                                     │   outer LangGraph StateGraph     │
                                     └─────────────────────────────────┘
                                                       │
@@ -18,8 +18,7 @@
         ▼                 ▼                 ▼                 ▼                 
 ┌───────────────┐ ┌───────────────┐ ┌───────────────┐ ┌───────────────┐        ┌────────────────┐        ┌────────────────┐
 │Symptom Analyzer│ │Lab Interpreter│ │ Risk Assessor  │ │  Recommender   │──────▶│  AI Reasoner    │──────▶│  AI Critic      │
-│  (Day 2)       │▶│  (Day 3)      │▶│  (Day 4)       │▶│  (Day 5)       │      │  (Day 12)        │      │  (Day 13)        │
-│  rule-based    │ │  rule-based   │ │  rule-based    │ │  rule-based    │      │  LLM (Groq)       │      │  LLM (Groq)       │
+│  rule-based    │▶│  rule-based   │▶│  rule-based    │▶│  rule-based    │      │  LLM (Groq)       │      │  LLM (Groq)       │
 └───────┬────────┘ └───────┬───────┘ └───────┬────────┘ └───────┬────────┘      └────────┬─────────┘      └────────┬─────────┘
         │                  │                 │                  │                        │                         │
         └──────────────────┴─────────────────┴──────────────────┘                        │                         │
@@ -48,7 +47,7 @@ cross-verification step, distinct from AI Reasoner just forming a second, unrela
 
 Each agent (`src/agents/*.py`) is its own small **2-node LangGraph `StateGraph`** — one node computes,
 one node formats/ranks the result — a shape kept consistent across all 4 agents so wiring them into
-the Day 6 supervisor was mechanical rather than a redesign.
+the outer supervisor was mechanical rather than a redesign.
 
 ### 1. Symptom Analyzer (`symptom_analyzer.py`)
 **In:** `symptoms: list[str]` · **Out:** ranked `diagnoses` (top 5), `unknown_symptoms`
@@ -87,7 +86,7 @@ multiple diagnoses), escalates by risk level (`recommendations.json` — e.g. CR
 admission + continuous monitoring), and adds age-specific tests for patients ≥65. Unknown diagnoses
 fall back to a generic workup rather than an empty recommendation.
 
-## The AI Reasoner (Day 12)
+## The AI Reasoner
 
 **In:** `symptoms`, `labs`, `age`, `comorbidities` — the *original* patient input only · **Out:**
 `ai_diagnoses` (up to 5, name/confidence/reasoning), `ai_summary`, `red_flags`, `model_used`
@@ -103,7 +102,7 @@ built from `settings.groq_api_key`/`groq_model` by the supervisor's default cons
 `llm=None` (no `GROQ_API_KEY` configured) is a first-class, explicit "unavailable" state, not an
 implicit failure.
 
-## The AI Critic (Day 13)
+## The AI Critic
 
 **In:** `symptoms`/`labs`/`age`/`comorbidities` (the original case, for context) **plus**
 `diagnoses`/`risk_assessment`/`recommendation` (the rule engine's actual result) · **Out:**
@@ -132,7 +131,7 @@ weight the patient's heart-disease comorbidity toward cardiac-complication risk 
 requires seeing the score to make. See the README's "Why two LLM agents, not one" for the full
 reasoning, including the latency/cost trade-off of running two Groq calls per analysis.
 
-## The Supervisor (Day 6, extended Day 12 and Day 13)
+## The Supervisor
 
 `src/orchestrator/supervisor.py`'s `DiagnosisSupervisor` is an **outer** LangGraph `StateGraph`
 treating each agent as one node, wired in a fixed sequential order: Symptom Analyzer → Lab
@@ -190,7 +189,7 @@ a preset patient to it across a navigation).
   `ResultsDisplay` for each past entry.
 - **`pages/AnalyticsPage.tsx`** — stat tiles + two labeled bar-list breakdowns (risk distribution,
   top diagnoses), backed by `/analytics`.
-- **`hooks/useSpeechRecognition.ts`** — wraps the Web Speech API for voice input (Day 9). Uses
+- **`hooks/useSpeechRecognition.ts`** — wraps the Web Speech API for voice input. Uses
   `continuous: false` per underlying session (the reliable mode — Chrome's `continuous: true` has
   long-standing bugs where it silently stops delivering results) with its own auto-restart-on-end
   logic to still support natural pauses between spoken symptoms.

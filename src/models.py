@@ -64,7 +64,7 @@ class AIOpinionDiagnosis(BaseModel):
 
 
 class AIOpinion(BaseModel):
-    """Output of the AI Reasoning Agent (Day 12) — a genuine, independent LLM second opinion.
+    """Output of the AI Reasoning Agent — a genuine, independent LLM second opinion.
 
     Deliberately separate from `diagnoses` (the rule engine's output): this is a
     supplementary, clearly-labeled opinion for a clinician to compare against the
@@ -80,7 +80,7 @@ class AIOpinion(BaseModel):
 
 
 class AICritique(BaseModel):
-    """Output of the AI Critic Agent (Day 13) — an LLM cross-check of the rule-based result.
+    """Output of the AI Critic Agent — an LLM cross-check of the rule-based result.
 
     Unlike `AIOpinion` (an independent take that never sees the rule engine's output), this
     agent *is* shown `diagnoses`/`risk_assessment`/`recommendation` and asked to critique that

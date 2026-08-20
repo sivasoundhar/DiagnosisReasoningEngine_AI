@@ -24,7 +24,7 @@ const SILENCE_TIMEOUT_MS = 3000
 const RESTART_DELAY_MS = 250
 
 /**
- * Thin wrapper around the browser's SpeechRecognition API (Day 9 spec).
+ * Thin wrapper around the browser's SpeechRecognition API.
  *
  * Deliberately uses `continuous: false` for every underlying session, NOT
  * `continuous: true` - Chrome's continuous mode has long-standing bugs

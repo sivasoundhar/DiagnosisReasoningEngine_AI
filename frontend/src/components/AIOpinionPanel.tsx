@@ -13,7 +13,7 @@ interface AIOpinionPanelProps {
 }
 
 /**
- * Shows the Day 12 AI Reasoning Agent's output - a genuinely independent LLM second
+ * Shows the AI Reasoning Agent's output - a genuinely independent LLM second
  * opinion, deliberately presented next to (never merged into) the deterministic
  * rule-engine result above it. When `aiOpinion` is null (no GROQ_API_KEY configured,
  * or the Groq call failed for this analysis) this renders an explanatory empty state

@@ -1,4 +1,4 @@
-"""Tests for the Lab Interpreter agent (Day 3)."""
+"""Tests for the Lab Interpreter agent."""
 import pytest
 
 from src.agents.base_agent import AgentError

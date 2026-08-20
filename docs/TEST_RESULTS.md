@@ -1,4 +1,4 @@
-# Day 10 — Real-Data Validation Results
+# Real-Data Validation Results
 
 **Date:** 2026-08-12
 **Dataset:** [DDXPlus](https://arxiv.org/abs/2205.09148) test split (`data/release_test_patients`)
@@ -15,14 +15,14 @@ real-data validation source.
 | **Plausible or better** | **15 / 20** | **75.0%** |
 
 Reproduce: `python scripts/validate_ddxplus.py` (deterministic, no randomness in case selection).
-Full per-case output: `data/results/day10_validation_results.json`. Selected cases + their mapped
-symptoms: `data/test_cases/day10_selected_cases.json`.
+Full per-case output: `data/results/validation_results.json`. Selected cases + their mapped
+symptoms: `data/test_cases/selected_cases.json`.
 
 ## Methodology
 
 ### Case selection
 DDXPlus defines 49 conditions; this app's knowledge base (`src/knowledge/conditions.json`) defines
-21, of which **20 have an exactly-matching name in DDXPlus** (only `Sepsis` doesn't — added on Day 4
+21, of which **20 have an exactly-matching name in DDXPlus** (only `Sepsis` doesn't — added later
 for a specific test scenario, not part of the original DDXPlus-aligned set). Rather than a random
 sample, **one real test patient was selected per each of those 20 overlapping conditions** — the
 first row in `release_test_patients` matching that `PATHOLOGY` whose mapped symptoms weren't empty.
@@ -43,7 +43,7 @@ location (`E_55`), keyword-classified into chest/abdomen/head regions.
 `night sweats` as distinct from general sweating, `rapid heart rate` as distinct from palpitations.
 Comorbidities (`diabetes`, `heart disease`, `cancer`, `kidney disease`, `liver disease`) are mapped
 from DDXPlus's own history questions the same way. This is the same judgment call already documented
-for the Day 8 Case Library — full DDXPlus→vocabulary translation is a nontrivial layer with real risk
+for the app's Case Library sample patients — full DDXPlus→vocabulary translation is a nontrivial layer with real risk
 of misrepresenting a case, so the mapping stays narrow and explicit rather than guessed at broadly.
 
 ### Scoring
@@ -93,7 +93,7 @@ genuine clinical ambiguity that even a real clinician would find hard from sympt
    ambiguous zone the keyword classifier may have miscategorized as "abdomen" instead of "chest."
    Worth revisiting the `ABDOMEN_KEYWORDS` classification if this recurs.
 3. **Viral pharyngitis / Acute rhinosinusitis → Pneumonia.** Both mapped to very sparse symptom sets
-   (`cough, fever` and `fever` alone respectively) — this app's own KB (Day 2) treats fever+cough as a
+   (`cough, fever` and `fever` alone respectively) — this app's own KB treats fever+cough as a
    strong Pneumonia signal by design, so a sparse, non-specific presentation reasonably lands there.
    The underlying DDXPlus rows may simply not have flagged the more specific evidences (sore throat,
    nasal symptoms) for these particular real patients, or those evidences exist under codes this
@@ -115,11 +115,11 @@ ambiguity or sparse underlying data rather than a defect in the reasoning pipeli
   symptom-mapping.
 - **Doesn't validate:** DDXPlus evidence-code coverage beyond the ~35 codes mapped here, lab-based
   reasoning (DDXPlus is symptom-only, no lab values), or the voice input feature (needs a live
-  microphone — see Day 9's build log entries; not something a validation script can exercise).
-- **Voice testing on sample cases** (spec's Day 10 ask) — not performed here for the same reason:
-  Web Speech API requires real audio and a live browser session, which this validation script can't
-  provide. Day 9's build log already covers what live-browser testing *could* verify (feature
-  detection, recognition object construction, TTS) versus what needed the user's own microphone.
+  microphone; not something a validation script can exercise).
+- **Voice testing on sample cases** — not performed here for the same reason: Web Speech API
+  requires real audio and a live browser session, which this validation script can't provide.
+  Manual browser testing separately covers what live-browser testing *could* verify (feature
+  detection, recognition object construction, TTS) versus what needed a real microphone.
 
 ## Carried forward
 

@@ -1,4 +1,4 @@
-"""Tests for GET /health - the one endpoint that exists on Day 1."""
+"""Tests for GET /health."""
 from fastapi.testclient import TestClient
 
 

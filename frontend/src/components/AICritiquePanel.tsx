@@ -18,7 +18,7 @@ const ASSESSMENT_META = {
 } as const
 
 /**
- * Shows the Day 13 AI Critic Agent's output - the actual cross-verification step. Unlike
+ * Shows the AI Critic Agent's output - the actual cross-verification step. Unlike
  * AIOpinionPanel (an independent take, never shown the rule engine's answer), this agent WAS
  * shown `diagnoses`/`risk_assessment`/`recommendation` and asked to critique that specific
  * result: does it hold up, what's missing, any concerns. Rendered as its own card, separate

@@ -21,7 +21,7 @@ interface PipelineStripProps {
 
 /**
  * Visual of the 6-agent LangGraph pipeline (src/orchestrator/supervisor.py's
- * fixed order - 4 rule-based agents + the Day 12 AI Reasoner + the Day 13 AI
+ * fixed order - 4 rule-based agents + the AI Reasoner + the AI
  * Critic). /analyze is one synchronous call - the backend doesn't stream
  * per-agent progress - so during `loading` this cycles through the steps as
  * a lightweight "working" animation rather than claiming to know the agents'

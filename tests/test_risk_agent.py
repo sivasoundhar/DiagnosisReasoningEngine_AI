@@ -1,4 +1,4 @@
-"""Tests for the Risk Assessor agent (Day 4).
+"""Tests for the Risk Assessor agent.
 
 Spec test cases used diagnosis names like "mild cold" as shorthand; since our
 diagnosis-severity lookup is exact-name against conditions.json (data-driven,

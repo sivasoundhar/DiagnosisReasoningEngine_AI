@@ -1,4 +1,4 @@
-"""Tests for the Recommender agent (Day 5)."""
+"""Tests for the Recommender agent."""
 import pytest
 
 from src.agents.base_agent import AgentError

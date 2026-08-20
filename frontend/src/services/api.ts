@@ -4,7 +4,7 @@
  * Retries transient failures (network errors, 5xx) with a short backoff;
  * never retries 4xx (bad input / not found) since retrying won't fix those.
  * All functions throw a plain Error with a readable message on failure, so
- * UI code (Day 8) can just try/catch and show `error.message`.
+ * UI code can just try/catch and show `error.message`.
  */
 import axios, { type AxiosInstance } from 'axios'
 import type {

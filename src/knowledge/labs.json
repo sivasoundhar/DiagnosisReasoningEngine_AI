@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "description": "Lab reference ranges + clinical interpretation, used by the Day 3 Lab Interpreter agent.",
+    "description": "Lab reference ranges + clinical interpretation, used by the Lab Interpreter agent.",
     "status_levels": ["LOW", "NORMAL", "ELEVATED", "CRITICAL"]
   },
   "WBC": {

@@ -42,7 +42,7 @@ function FieldRow({ label, value }: { label: string; value: string }) {
  *
  * Section order: Presenting Information -> Differential Diagnosis (rule-based)
  * -> Risk Assessment -> Abnormal Labs -> Recommendations -> AI Second Opinion
- * (Day 12) -> AI Cross-Check (Day 13) -> Clinical Reasoning Chain -> Clinical
+ * -> AI Cross-Check -> Clinical Reasoning Chain -> Clinical
  * Summary. Both AI sections only render when their data is present (`ai_opinion`
  * / `ai_critique`) - omitted entirely otherwise, not shown as an empty
  * placeholder. They're deliberately placed *after* the rule-based sections and

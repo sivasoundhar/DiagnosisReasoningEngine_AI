@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "description": "Symptom -> candidate diagnoses mapping. 'match' drives Day 2 confidence scoring: exact=+50, partial=+25, indirect=+10.",
+    "description": "Symptom -> candidate diagnoses mapping. 'match' drives confidence scoring: exact=+50, partial=+25, indirect=+10.",
     "condition_names_aligned_with": "data/release_conditions.json (DDXPlus dataset)"
   },
   "fever": [

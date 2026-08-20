@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "description": "Scoring weights for the Day 4 Risk Assessor agent. Kept as data (not Python constants) per project rule: medical KB is data-driven.",
+    "description": "Scoring weights for the Risk Assessor agent. Kept as data (not Python constants) per project rule: medical KB is data-driven.",
     "total_score_to_level": "0-25=LOW, 26-50=MEDIUM, 51-75=HIGH, 76+=CRITICAL"
   },
   "age_brackets": [

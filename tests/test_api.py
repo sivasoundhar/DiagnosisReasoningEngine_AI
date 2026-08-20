@@ -1,4 +1,4 @@
-"""Tests for the Day 7 FastAPI endpoints (/analyze, /history/{id}, /feedback)."""
+"""Tests for the FastAPI endpoints (/analyze, /history/{id}, /feedback)."""
 from fastapi.testclient import TestClient
 
 

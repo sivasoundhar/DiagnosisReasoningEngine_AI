@@ -12,7 +12,7 @@ interface TextToSpeechButtonProps {
 const supported = typeof window !== 'undefined' && 'speechSynthesis' in window
 
 /**
- * "Read aloud" (Day 9, optional per spec): browser-native text-to-speech via
+ * "Read aloud" (optional per spec): browser-native text-to-speech via
  * SpeechSynthesisUtterance - a clinician can listen to the summary while
  * still looking at the patient instead of the screen. Broadly supported
  * (unlike SpeechRecognition), but still feature-detected defensively.

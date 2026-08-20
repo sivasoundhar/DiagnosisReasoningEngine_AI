@@ -1,4 +1,4 @@
-"""Tests for the Day 6 LangGraph Supervisor (full agent pipeline)."""
+"""Tests for the LangGraph Supervisor (full agent pipeline)."""
 import pytest
 
 from src.agents.base_agent import AgentError
@@ -7,8 +7,8 @@ from src.orchestrator.supervisor import DiagnosisSupervisor, SupervisorError
 
 
 class _FakeAIReasoner:
-    """Stands in for AIReasonerAgent in tests that aren't specifically about the Day 12
-    AI feature - succeeds deterministically so pre-existing pipeline assertions (e.g.
+    """Stands in for AIReasonerAgent in tests that aren't specifically about the AI
+    Reasoner feature - succeeds deterministically so pre-existing pipeline assertions (e.g.
     `errors == []`) stay meaningful without any test here touching the network."""
 
     name = "ai_reasoner"
@@ -32,7 +32,7 @@ class _FailingAIReasoner:
 
 
 class _FakeAICritic:
-    """Stands in for AICriticAgent in tests that aren't specifically about the Day 13
+    """Stands in for AICriticAgent in tests that aren't specifically about the AI Critic
     cross-verification feature."""
 
     name = "ai_critic"
@@ -74,7 +74,7 @@ def test_full_pipeline_end_to_end(supervisor: DiagnosisSupervisor, sample_patien
     result = supervisor.run(sample_patient)
 
     assert len(result["diagnoses"]) > 0
-    assert result["diagnoses"][0]["name"] == "Pneumonia"  # fever+cough+SOB triad, per Day 2's own example
+    assert result["diagnoses"][0]["name"] == "Pneumonia"  # fever+cough+SOB triad, per the knowledge base's own example
 
     assert len(result["lab_interpretations"]) == 2  # WBC + CRP
 
@@ -143,7 +143,7 @@ def test_empty_symptoms_raises_supervisor_error(supervisor: DiagnosisSupervisor)
 
 
 def test_supervisor_error_is_an_agent_error(supervisor: DiagnosisSupervisor) -> None:
-    # So callers (Day 7's API layer) can catch AgentError generically for all agent/pipeline failures.
+    # So callers (the API layer) can catch AgentError generically for all agent/pipeline failures.
     assert issubclass(SupervisorError, AgentError)
 
 

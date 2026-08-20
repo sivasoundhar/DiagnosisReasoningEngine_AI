@@ -1,16 +1,16 @@
-"""Day 6 Supervisor: LangGraph orchestration wiring the agents into one pipeline.
+"""Supervisor: LangGraph orchestration wiring the agents into one pipeline.
 
 Sequential order per spec: Symptom Analyzer -> Lab Interpreter -> Risk Assessor ->
-Recommender. Each agent already has its own internal two-node graph (Days 2-5); this
+Recommender. Each agent already has its own internal two-node graph; this
 outer graph treats each agent as a single node, calling `BaseAgent.run()` so logging
 and error handling stay uniform with how each agent already behaves standalone.
 
-Day 12 added a 5th node, AI Reasoner, after Recommender. It deliberately reads only
+A 5th node, AI Reasoner, runs after Recommender. It deliberately reads only
 the *original* input state (symptoms/labs/age/comorbidities) - never the rule engine's
 diagnoses/risk/recommendation - so its opinion is genuinely independent, not primed by
 the deterministic result it runs alongside. See `src/agents/ai_reasoner.py`.
 
-Day 13 added a 6th node, AI Critic, after AI Reasoner. It does the opposite job on purpose:
+A 6th node, AI Critic, runs after AI Reasoner. It does the opposite job on purpose:
 it *is* shown the rule engine's diagnoses/risk/recommendation and asked to critique that
 specific result (concerns, missed considerations, an agrees/partially_agrees/disagrees
 verdict) - this is the actual cross-verification step, distinct from AI Reasoner's

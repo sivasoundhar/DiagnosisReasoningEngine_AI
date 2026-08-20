@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "description": "Disease definitions. Day 5 extends each entry with tests/treatments/follow_up for the Recommender agent. Risk-level escalation on top of these baselines lives in recommendations.json, not here.",
+    "description": "Disease definitions. Each entry includes tests/treatments/follow_up for the Recommender agent. Risk-level escalation on top of these baselines lives in recommendations.json, not here.",
     "condition_names_aligned_with": "data/release_conditions.json (DDXPlus dataset)"
   },
   "Pneumonia": {

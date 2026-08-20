@@ -21,7 +21,7 @@ const ERROR_MESSAGES: Record<SpeechErrorKind, string> = {
 }
 
 /**
- * Voice input (Day 9): click to start, browser transcribes speech to text,
+ * Voice input: click to start, browser transcribes speech to text,
  * each finalized phrase's ranked alternatives are handed to the parent to
  * re-score and merge into the symptoms field. Stops itself after a few
  * seconds of true silence (the hook's own timer, not the browser's more

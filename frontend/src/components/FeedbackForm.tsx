@@ -12,9 +12,9 @@ interface FeedbackFormProps {
   patientId: string
 }
 
-/** POST /feedback (Day 7) - attaches a clinician's actual diagnosis / notes
- * to a patient's latest record. Was live on the backend since Day 7 but had
- * no UI until now. */
+/** POST /feedback - attaches a clinician's actual diagnosis / notes
+ * to a patient's latest record. Was live on the backend before this
+ * UI existed for it. */
 export function FeedbackForm({ patientId }: FeedbackFormProps) {
   const [actualDiagnosis, setActualDiagnosis] = useState('')
   const [feedbackText, setFeedbackText] = useState('')

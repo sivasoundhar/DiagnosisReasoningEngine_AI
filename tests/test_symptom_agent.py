@@ -1,4 +1,4 @@
-"""Tests for the Symptom Analyzer agent (Day 2)."""
+"""Tests for the Symptom Analyzer agent."""
 import pytest
 
 from src.agents.base_agent import AgentError

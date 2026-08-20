@@ -5,7 +5,7 @@
  * since that mapping (DDXPlus code -> our 29-symptom vocabulary) is a
  * nontrivial translation layer that risks silently misrepresenting a real
  * case. These are demo scenarios for the UI, not validation data (that's
- * Day 10's job, against the DDXPlus CSVs directly).
+ * handled separately, against the DDXPlus CSVs directly).
  */
 import type { PatientPreset } from '@/lib/form'
 

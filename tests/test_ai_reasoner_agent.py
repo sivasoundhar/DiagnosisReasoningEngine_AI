@@ -1,4 +1,4 @@
-"""Tests for the AI Reasoning Agent (Day 12: independent LLM second opinion).
+"""Tests for the AI Reasoning Agent (independent LLM second opinion).
 
 No test here ever hits the network - a fake LLM object is injected in place of
 `ChatGroq`, so these test the agent's own logic (case summary building, output

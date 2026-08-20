@@ -105,7 +105,7 @@ export function toPatientInput(form: PatientFormData): PatientInput {
 }
 
 /** Splits a spoken phrase like "fever, cough and shortness of breath" into
- * individual symptom strings - voice input (Day 9) hands back one run-on
+ * individual symptom strings - voice input hands back one run-on
  * transcript, but the symptoms field is a list of tags. */
 export function parseSpokenSymptoms(transcript: string): string[] {
   return transcript

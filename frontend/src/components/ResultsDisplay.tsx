@@ -56,7 +56,7 @@ export function ResultsDisplay({ result, elapsedMs, patientMeta }: ResultsDispla
         <AbnormalFindings labInterpretations={result.lab_interpretations} />
       </div>
 
-      {/* Day 12 + 13: two different LLM checks, deliberately paired but visually distinct -
+      {/* Two different LLM checks, deliberately paired but visually distinct -
           AIOpinionPanel never saw the rule-based result (independent), AICritiquePanel WAS
           shown it (cross-check). Their own row, not merged into the rule-based grid above, so
           both always read as supplementary to it. */}

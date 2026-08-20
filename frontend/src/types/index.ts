@@ -45,7 +45,7 @@ export interface AIOpinionDiagnosis {
   reasoning: string
 }
 
-/** Output of the Day 12 AI Reasoning Agent - an independent LLM second opinion,
+/** Output of the AI Reasoning Agent - an independent LLM second opinion,
  * deliberately separate from `diagnoses` (the rule engine's output). `null` on
  * DiagnosisOutput when no GROQ_API_KEY is configured or the LLM call failed. */
 export interface AIOpinion {
@@ -55,7 +55,7 @@ export interface AIOpinion {
   model: string
 }
 
-/** Output of the Day 13 AI Critic Agent - an LLM cross-check of the RULE-BASED result (unlike
+/** Output of the AI Critic Agent - an LLM cross-check of the RULE-BASED result (unlike
  * `AIOpinion`, this agent is shown `diagnoses`/`risk_assessment`/`recommendation` and asked to
  * critique that specific result). `null` on DiagnosisOutput when no GROQ_API_KEY is configured
  * or the LLM call failed. */

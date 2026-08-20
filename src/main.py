@@ -1,7 +1,7 @@
 """FastAPI entrypoint.
 
-Day 1: app wiring, CORS, logging, health check.
-Day 7: /analyze, /history/{patient_id}, /feedback wired to the Day 6 supervisor + DB.
+App wiring, CORS, logging, health check, and /analyze, /history/{patient_id},
+/feedback wired to the supervisor + DB.
 """
 import json
 import logging

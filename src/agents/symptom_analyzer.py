@@ -1,7 +1,7 @@
 """Symptom Analyzer Agent: reported symptoms -> ranked differential diagnoses.
 
 Implemented as a small LangGraph pipeline (score -> rank) rather than a single
-function so it drops straight into the Day 6 supervisor graph as a node, and
+function so it drops straight into the outer supervisor graph as a node, and
 so scoring/ranking can evolve independently (e.g. ranking swapped for an LLM
 re-ranker later) without touching the other stage.
 """
@@ -15,7 +15,7 @@ from src.knowledge.medical_kb import KnowledgeBase
 
 logger = logging.getLogger("diagnosis_engine.agents.symptom_analyzer")
 
-# Scoring weights per Day 2 spec: exact match = +50, partial = +25, indirect link = +10.
+# Scoring weights per spec: exact match = +50, partial = +25, indirect link = +10.
 _SCORE_WEIGHTS: dict[str, int] = {"exact": 50, "partial": 25, "indirect": 10}
 _MATCH_PHRASES: dict[str, str] = {
     "exact": "strong match",

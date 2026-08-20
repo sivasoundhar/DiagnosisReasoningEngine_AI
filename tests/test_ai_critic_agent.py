@@ -1,4 +1,4 @@
-"""Tests for the AI Critic Agent (Day 13: LLM cross-check of the rule-based result).
+"""Tests for the AI Critic Agent (LLM cross-check of the rule-based result).
 
 No test here ever hits the network - a fake LLM object is injected in place of
 `ChatGroq`, same pattern as tests/test_ai_reasoner_agent.py.

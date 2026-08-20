@@ -1,7 +1,7 @@
 """Lab Interpreter Agent: raw lab values -> clinical interpretation + linked diagnoses.
 
 Same two-stage LangGraph shape as the Symptom Analyzer (interpret each finding,
-then aggregate) so both agents plug into the Day 6 supervisor the same way.
+then aggregate) so both agents plug into the outer supervisor the same way.
 """
 import logging
 from typing import Any, TypedDict

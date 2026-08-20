@@ -1,7 +1,7 @@
 """Abstract base class every LangGraph agent inherits from.
 
 Forcing a shared shape (invoke / get_reasoning / format_output) means the
-supervisor (Day 6) can wire all four agents identically, and every agent
+supervisor can wire all four agents identically, and every agent
 is required to explain itself — not just return an answer.
 """
 import logging

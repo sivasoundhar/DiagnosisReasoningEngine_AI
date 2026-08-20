@@ -11,10 +11,10 @@ Multi-stage build (`Dockerfile`) — a `builder` stage installs Python deps, the
 only the installed packages + `src/`, not build tools or caches.
 
 - **Base:** `python:3.11-slim`
-- **Size:** 474MB. History: 737MB initially → 471MB on Day 11 (`spacy` and `langchain-groq` were
-  pinned but never imported anywhere; both removed with zero behavior change) → 474MB from Day 12/13
-  (`langchain-groq` deliberately re-added, now genuinely used by the AI Reasoner and AI Critic
-  agents). Verified by a full rebuild + container run against `/health` and a live `/analyze` call
+- **Size:** 474MB. History: dropped from an initial 737MB to 471MB after removing `spacy` and
+  `langchain-groq` pins that were never actually imported anywhere, then rose slightly to 474MB once
+  `langchain-groq` was deliberately re-added, now genuinely used by the AI Reasoner and AI Critic
+  agents. Verified by a full rebuild + container run against `/health` and a live `/analyze` call
   (with a real `GROQ_API_KEY`) confirming both `ai_opinion` and `ai_critique` populate correctly
   inside the container, not just in local dev.
 - **Healthcheck:** built in (`HEALTHCHECK` instruction), polls `/health` every 30s
@@ -40,7 +40,7 @@ for local full-stack testing, not a production frontend deployment (see below).
 | `ENVIRONMENT` | `development` | `test` forces in-memory SQLite (used by the test suite / CI) |
 | `LOG_LEVEL` | `INFO` | |
 | `ALLOWED_ORIGINS` | `http://localhost:5173,http://localhost:3000` | CORS — **must be updated** to the real frontend URL once deployed |
-| `GROQ_API_KEY` | — | **Used by the Day 12 AI Reasoning Agent and the Day 13 AI Critic Agent** (one shared client, two agents). Without it, `/analyze` still works fully — `ai_opinion` and `ai_critique` are simply `null` on every response. Get a free key at console.groq.com. |
+| `GROQ_API_KEY` | — | **Used by the AI Reasoning Agent and the AI Critic Agent** (one shared client, two agents). Without it, `/analyze` still works fully — `ai_opinion` and `ai_critique` are simply `null` on every response. Get a free key at console.groq.com. |
 | `GROQ_MODEL` | `llama-3.3-70b-versatile` | Which Groq model both LLM agents call |
 | `OLLAMA_*` | — | Defined but still unused — no agent currently falls back to Ollama |
 
@@ -84,8 +84,8 @@ figure out from scratch later.
 5. **Wire up CI/CD:** create a Deploy Hook on the Render backend service, add it as the
    `RENDER_DEPLOY_HOOK_URL` secret in the GitHub repo settings. The existing `deploy` job in
    `deploy.yml` picks it up automatically — no workflow changes needed.
-6. **Verify:** `/health` on the live URL, a full `/analyze` call through the live UI, and (per the
-   original Day 11 spec) a handful of the Day 10 validation cases re-run against the live instance.
+6. **Verify:** `/health` on the live URL, a full `/analyze` call through the live UI, and a handful
+   of the real-data validation cases re-run against the live instance.
 
 ## Known gaps to revisit
 

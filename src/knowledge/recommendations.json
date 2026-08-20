@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "description": "Risk-level escalation rules and shared clinical rationale text for the Day 5 Recommender agent. Per-diagnosis baseline tests/treatments live in conditions.json; this file layers risk-level and age adjustments on top."
+    "description": "Risk-level escalation rules and shared clinical rationale text for the Recommender agent. Per-diagnosis baseline tests/treatments live in conditions.json; this file layers risk-level and age adjustments on top."
   },
   "default_risk_level": "MEDIUM",
   "unknown_diagnosis_workup": {

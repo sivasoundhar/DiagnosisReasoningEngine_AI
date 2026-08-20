@@ -1,6 +1,6 @@
-"""AI Critic Agent (Day 13): an LLM cross-check of the rule-based result.
+"""AI Critic Agent: an LLM cross-check of the rule-based result.
 
-The Day 12 AI Reasoner produces an *independent* second opinion - it never sees the rule
+The AI Reasoner produces an *independent* second opinion - it never sees the rule
 engine's output, by design, so it can't rubber-stamp it. This agent does the opposite job on
 purpose: it's shown the rule-based `diagnoses`/`risk_assessment`/`recommendation` (plus the
 original case for context) and asked to actually critique that result - flag concerns, name
