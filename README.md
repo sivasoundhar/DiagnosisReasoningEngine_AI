@@ -18,6 +18,8 @@ answer.
 
 ![Demo: filling in a patient, running the 6-agent pipeline, and reviewing the ranked diagnosis, risk score, and AI second opinion + critique](docs/assets/demo.gif)
 
+![Demo: browsing the Case Library's sample patients, searching Patient History for a past analysis, and reviewing aggregated stats on the Analytics page](docs/assets/demo-library-history-analytics.gif)
+
 ---
 
 ## Contents
